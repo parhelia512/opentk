@@ -31,6 +31,13 @@ using OpenTK.Input;
 
 namespace OpenTK.Platform.SDL2
 {
+    [AttributeUsage(AttributeTargets.Method)]
+    internal class MonoPInvokeCallbackAttribute : Attribute
+    {
+        public MonoPInvokeCallbackAttribute(Type t)
+        {
+        }
+    }
     internal class Sdl2InputDriver : IInputDriver2
     {
         private readonly static Dictionary<IntPtr, Sdl2InputDriver> DriverHandles =
@@ -70,6 +77,7 @@ namespace OpenTK.Platform.SDL2
             }
         }
 
+        [MonoPInvokeCallback(typeof(EventFilter))]
         private unsafe static int FilterInputEvents(IntPtr driver_handle, IntPtr e)
         {
             try
